@@ -46,7 +46,7 @@ body.handsfree-started .handsfree-show-when-stopped {
 }
 
 .keyboardThemeClass {
-  color: black !important;
+  color: black;
 }
 
 /* Demo */
