@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Handsfree Starter</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="https://cdn.glitch.com/ee6351cf-ebdc-4924-864a-4df22172856f%2Ftensormonkey.png">
+
+    <!-- import the webpage's stylesheet -->
+    <link rel="stylesheet" href="/css/main.css">
+
+    <!-- Vuetify -->
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vuetify/dist/vuetify.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+    <link rel="stylesheet" href="https://unpkg.com/vuetify/dist/vuetify.min.css">
+  </head>
+  <body>
+    <div id="app">
+      <v-app dark="dark">
+        <v-toolbar light="light" app="app">
+          <v-toolbar-title class="headline text-uppercase"><span class="mr-3">CS4065Project</span></v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-btn class="primary handsfree-show-when-stopped" large="large" @click="startWebcam">Start Webcam</v-btn>
+          <v-btn class="primary handsfree-show-when-started hidden" large="large" color="error" @click="stopWebcam">Stop Webcam</v-btn>
+        </v-toolbar>
+        <v-content>
+          <div class="handsfree-debug-wrap"></div>
+          <v-container full-height="full-height" grid-list-md="grid-list-md">
+            <v-layout class="mb-5" justify-center="justify-center" wrap="wrap" align-center="align-center">
+              <h2 id="generated"></h2>
+              <input class="input" placeholder="Tap on the virtual keyboard to start" />
+              <div class="simple-keyboard"></div>
+              <v-flex xs12="xs12" md6="md6" lg6="lg6">
+                <v-card light="light">
+                  <v-card-title primary-title="primary-title">
+                    <h2 class="headline mb-0">Sandbox</h2>
+                  </v-card-title>
+
+                  <!-- ######################### -->
+                  <!-- # INSERT YOUR HTML HERE # -->
+                  <!-- ######################### -->
+                  <v-card-text>
+                    <p>Turn head to move cursor and smile wide to click on things 😊</p>
+                    <p>Insert the component you want to handsfree-ify here, like a <a href="https://glitch.com/~handsfree-youtube">YouTube video</a> or <a href="https://glitch.com/~handsfree-google-maps">Google Map</a>. Then edit <code>/starter.js</code> to control it!</p>
+                    <div id="sandbox-wrap">
+                      <strong>face.cursor.x</strong>: 0
+                      <br>
+                      <strong>face.cursor.y</strong>: 0
+                      <br>
+                      <strong>face.cursor.$target</strong>: 0
+                      <br>
+                      <strong>face.cursor.state.mouseDown</strong>: 0
+                      <br>
+                      <strong>face.cursor.state.mouseDrag</strong>: 0
+                      <br>
+                      <strong>face.cursor.state.mouseUp</strong>: 0
+                      <br>
+                      <strong>face.translationX/Y</strong>: (0, 0)
+                      <br>
+                      <strong>face.rotationX/Y/Z</strong>: (0, 0, 0)
+                      <br>
+                      <strong>face.scale</strong>: 0
+                    </div>
+                  </v-card-text>
+                </v-card>
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-content>
+      </v-app>
+    </div>
+
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+
+    <!-- include the Glitch button to show what the webpage is about and to make it easier for folks to view source and remix -->
+    <div class="glitchButton" style="position:fixed;top:20px;right:20px;"></div>
+    <script src="https://button.glitch.me/button.js"></script>
+    <!-- simplekeyboard -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/css/index.css">
+    <script src="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/index.min.js"></script>
+
+    <!-- Load up handsfree and Vue -->
+    <script src="https://unpkg.com/handsfree@<4.1.0/dist/handsfree.js"></script>
+    <script src="store/start-face.js"></script>
+    <script src="js/app.js"></script>
+    <script src="starter.js"></script>
+    <script src="js/handsfree-boids-debugger-plugin.js"></script>
+  </body>
+</html>

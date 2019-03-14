@@ -1,0 +1,102 @@
+/* CSS files add styling rules to your content */
+body {
+  font-family: "Benton Sans", "Helvetica Neue", helvetica, arial, sans-serif;
+  margin: 2em;
+}
+
+h1 {
+  font-style: italic;
+  color: #373fff;
+}
+
+main {
+  position: relative;
+  z-index: 1
+}
+
+/* Handsfree */
+.handsfree-boids-debugger-wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+.handsfree-boids-debugger-primary-canvas,
+.handsfree-boids-debugger-secondary-canvas {
+  position: relative;
+  top: 0;
+  left: 0;
+  transform: scale(-1, 1);
+  pointer-events: none;
+}
+.handsfree-boids-debugger-secondary-canvas {
+  position: absolute;
+}
+body.handsfree-stopped .handsfree-show-when-stopped {
+  display: initial;
+}
+body.handsfree-started .handsfree-show-when-started {
+  display: initial;
+}
+body.handsfree-stopped .handsfree-show-when-started {
+  display: none;
+}
+body.handsfree-started .handsfree-show-when-stopped {
+  display: none;
+}
+
+/* Demo */
+.hidden {
+  display: none;
+}
+pre {
+  margin-bottom: 16px;
+}
+h3 + pre,
+pre + h3 {
+  margin-top: 16px;
+}
+img {
+  max-width: 100%;
+}
+.handsfree-simple-keyboard {
+  background: #ddd;
+  padding: 10px;
+}
+.handsfree-simple-keyboard input {
+  width: 100%;
+  display: block;
+  padding: 10px;
+  background: #fff;
+  margin-bottom: 10px;
+}
+.handsfree-simple-keyboard .simple-keyboard.hg-theme-default .hg-button {
+  height: 70px;
+}
+
+/* Glitch */
+body .glitchButton {
+  top: 10px !important;
+  z-index: 10;
+}
+body .v-toolbar {padding-right: 70px !important;}
+@media screen and (max-width: 960px) {body .glitchButton {top: 0 !important}}
+@media screen and (max-width: 724px) {html body .glitchButton {top: 6px !important}}
+
+.simple-keyboard {
+  max-width: 1000px;
+  max-height: 500px;
+  margin: 0 auto;
+  margin-top: 10px;
+}
+
+.simple-keyboard .hg-button.hg-functionBtn.hg-button-space {
+  min-width: 150px;
+  max-width: none;
+}
+.simple-keyboard .hg-button.hg-functionBtn.hg-button-ent {
+  max-width: 80px;
+}
+.simple-keyboard.hg-theme-default.hg-button{
+  color:black;
+}
