@@ -45,6 +45,10 @@ body.handsfree-started .handsfree-show-when-stopped {
   display: none;
 }
 
+.keyboardThemeClass {
+  color: black !important;
+}
+
 /* Demo */
 .hidden {
   display: none;

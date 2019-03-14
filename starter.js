@@ -31,7 +31,8 @@ let keyboard = new Keyboard({
     "{metaleft}": "cmd ⌘",
     "{metaright}": "cmd ⌘",
     "{abc}": "ABC"
-  }
+  },
+  theme: "hg-theme-default hg-layout-default keyboardThemeClass",
 });
 
 /**
