@@ -3,6 +3,8 @@ let Keyboard = window.SimpleKeyboard.default;
 let keyboard = new Keyboard({
   onChange: input => onChange(input),
   onKeyPress: button => onKeyPress(button),
+  modules: [
+  ],
   mergeDisplay: true,
   layoutName: "default",
   layout: {
@@ -103,7 +105,7 @@ handsfree.use({
     console.log(pose.cursor.x);
     console.log(pose.cursor.y);
     console.log(pose.cursor.$target);
-    $(document.elementFromPoint(1403.4567007647752,17.32985791567112)).trigger("click");
+    $(document.elementFromPoint(pose.cursor.x,pose.cursor.y)).trigger("click");
   },
   /**
    * Called whenever handsfree.start() is called
@@ -119,6 +121,3 @@ handsfree.use({
     console.log(`Stopped: ${this.name}`)
   }
 })
-function simulateClick(x, y) {
-    jQuery(document.elementFromPoint(x, y)).click();
-}
