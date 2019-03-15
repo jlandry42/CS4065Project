@@ -14,6 +14,11 @@
     <script src="https://unpkg.com/vuetify/dist/vuetify.min.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
     <link rel="stylesheet" href="https://unpkg.com/vuetify/dist/vuetify.min.css">
+
+    <!-- Load up the txtgen script -->
+    <script src="txtgen/txtgen.js"></script>
+    <!-- Load up the string-similarity script -->
+    <script src="string-similarity/compare-strings.js"></script>
   </head>
   <body>
     <div id="app">
@@ -29,8 +34,17 @@
           <v-container full-height="full-height" grid-list-md="grid-list-md">
             <v-layout class="mb-5" justify-center="justify-center" wrap="wrap" align-center="align-center">
               <h2 id="generated"></h2>
-              <input class="input" placeholder="Tap on the virtual keyboard to start" />
-              <div class="simple-keyboard"></div>
+
+              <div class="container">
+                <div class="targetSentenceContainer">
+                  <span id="targetSentence"></span>
+                </div>
+                <input id="inputSentence" class="input" placeholder="Tap on the virtual keyboard to start" />
+                <div class="keyboardContainer">
+                  <div class="simple-keyboard"></div>
+                </div>
+              </div>
+
               <v-flex xs12="xs12" md6="md6" lg6="lg6">
                 <v-card light="light">
                   <v-card-title primary-title="primary-title">
@@ -79,7 +93,10 @@
     <script src="https://button.glitch.me/button.js"></script>
     <!-- simplekeyboard -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/css/index.css">
-    <script src="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/index.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swipe-keyboard@latest/build/css/index.css">
+    <script src="https://cdn.jsdelivr.net/npm/simple-keyboard@2.7.4/build/index.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swipe-keyboard@latest/build/index.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-keyboard-autocorrect@latest/build/index.min.js"></script>
     <!-- Load up handsfree and Vue -->
     <script src="https://unpkg.com/handsfree@<4.1.0/dist/handsfree.js"></script>
     <script src="store/start-face.js"></script>

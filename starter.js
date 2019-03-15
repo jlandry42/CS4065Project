@@ -1,9 +1,19 @@
 let Keyboard = window.SimpleKeyboard.default;
+let swipe = window.SimpleKeyboardSwipe.default;
+let autocorrect = window.SimpleKeyboardAutocorrect.default;
+let txtgen = window.txtgen;
 
 let keyboard = new Keyboard({
   onChange: input => onChange(input),
   onKeyPress: button => onKeyPress(button),
+  autocorrectDict: ["hello", "pizza", "computer", "home"],
+  autocorrectHotkey: "{space}",
+  onAutocorrectPrediction: (word, prediction) => {
+    console.log("Autocorrect:", word, prediction);
+  },
   modules: [
+    swipe,
+    autocorrect
   ],
   mergeDisplay: true,
   layoutName: "default",
@@ -42,6 +52,16 @@ document.querySelector(".input").addEventListener("input", event => {
   keyboard.setInput(event.target.value);
 });
 
+document.querySelector(".swipeCanvasElement").addEventListener("mouseup", () => {
+    /**
+     * Default autocorrect hotkey is space, can be changed
+     * by setting the "autocorrectHotkey" option
+     */
+    if(document.getElementById("inputSentence").value !== "") {
+      keyboard.getButtonElement("{space}").click();
+    }
+}, true);
+
 console.log(keyboard);
 
 function onChange(input) {
@@ -52,6 +72,19 @@ function onChange(input) {
 function onKeyPress(button) {
 
   console.log("Button pressed", button);
+
+  // if the Enter button is clicked
+  if(button === "{ent}") {
+    const targetSentence = document.getElementById("targetSentence").innerText;
+    const inputSentence = document.getElementById("inputSentence").value;
+    alert(compareTwoStrings(targetSentence, inputSentence));
+
+    let sentence = txtgen.sentence();
+    sentence = sentence.replace(/[^\w\s]/gi, '');
+    sentence = sentence.toLowerCase();
+    document.getElementById("targetSentence").innerText = sentence;
+    keyboard.clearInput();
+  }
 }
 
 
