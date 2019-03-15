@@ -14,6 +14,11 @@
     <script src="https://unpkg.com/vuetify/dist/vuetify.min.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
     <link rel="stylesheet" href="https://unpkg.com/vuetify/dist/vuetify.min.css">
+
+    <!-- Load up the txtgen script -->
+    <script src="txtgen/txtgen.js"></script>
+    <!-- Load up the string-similarity script -->
+    <script src="string-similarity/compare-strings.js"></script>
   </head>
   <body>
     <div id="app">
@@ -34,7 +39,7 @@
                 <div class="targetSentenceContainer">
                   <span id="targetSentence"></span>
                 </div>
-                <input class="input" placeholder="Tap on the virtual keyboard to start" />
+                <input id="inputSentence" class="input" placeholder="Tap on the virtual keyboard to start" />
                 <div class="keyboardContainer">
                   <div class="simple-keyboard"></div>
                 </div>
@@ -98,7 +103,5 @@
     <script src="js/app.js"></script>
     <script src="starter.js"></script>
     <script src="js/handsfree-boids-debugger-plugin.js"></script>
-    <!-- Load up the txtgen script -->
-    <script src="txtgen/txtgen.js"></script>
   </body>
 </html>
