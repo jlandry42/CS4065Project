@@ -45,9 +45,28 @@ body.handsfree-started .handsfree-show-when-stopped {
   display: none;
 }
 
+.keyboardAreaContainer {
+  width: 100%;
+}
+
+.keyboardContainer {
+  max-width: 1000px;
+  /*width: 1000px;*/
+  /*max-height: 500px;*/
+  /*height: 100%;*/
+}
+
 .keyboardThemeClass {
   color: black;
 }
+
+/*.swipeCanvasElement {*/
+  /*max-width: 1000px;*/
+  /*width: 1000px;*/
+  /*max-height: 500px;*/
+  /*height: 100%;*/
+  /*padding: 5px;*/
+/*}*/
 
 /* Demo */
 .hidden {
