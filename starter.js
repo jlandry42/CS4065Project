@@ -57,7 +57,9 @@ document.querySelector(".swipeCanvasElement").addEventListener("mouseup", () => 
      * Default autocorrect hotkey is space, can be changed
      * by setting the "autocorrectHotkey" option
      */
-    keyboard.getButtonElement("{space}").click();
+    if(document.getElementById("inputSentence").value !== "") {
+      keyboard.getButtonElement("{space}").click();
+    }
 }, true);
 
 console.log(keyboard);
@@ -74,14 +76,14 @@ function onKeyPress(button) {
   // if the Enter button is clicked
   if(button === "{ent}") {
     const targetSentence = document.getElementById("targetSentence").innerText;
-    const inputSentence = document.getElementById("inputSentence").innerText;
+    const inputSentence = document.getElementById("inputSentence").value;
     alert(compareTwoStrings(targetSentence, inputSentence));
 
     let sentence = txtgen.sentence();
     sentence = sentence.replace(/[^\w\s]/gi, '');
     sentence = sentence.toLowerCase();
     document.getElementById("targetSentence").innerText = sentence;
-    document.getElementById("inputSentence").innerText = "";
+    keyboard.clearInput();
   }
 }
 
