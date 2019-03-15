@@ -51,22 +51,33 @@ body.handsfree-started .handsfree-show-when-stopped {
 
 .keyboardContainer {
   max-width: 1000px;
-  /*width: 1000px;*/
-  /*max-height: 500px;*/
-  /*height: 100%;*/
 }
 
 .keyboardThemeClass {
   color: black;
 }
 
-/*.swipeCanvasElement {*/
-  /*max-width: 1000px;*/
-  /*width: 1000px;*/
-  /*max-height: 500px;*/
-  /*height: 100%;*/
-  /*padding: 5px;*/
-/*}*/
+input {
+  width: 100%;
+  height: 60px;
+  font-size: 20px;
+  border: none;
+  box-sizing: border-box;
+  margin-left: 5px;
+}
+
+.container {
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+.simple-keyboard.hg-theme-default {
+  height: 330px;
+}
+
+.simple-keyboard.hg-theme-default .hg-button {
+  height: 60px;
+}
 
 /* Demo */
 .hidden {
