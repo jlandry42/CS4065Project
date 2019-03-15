@@ -75,6 +75,8 @@ function onKeyPress(button) {
       let txtgen = window.txtgen;
 
       let sentence = txtgen.sentence();
+      sentence = sentence.replace(/[^\w\s]/gi, '');
+      sentence = sentence.toLowerCase();
       document.getElementById("targetSentence").innerText = sentence;
   }
 }
