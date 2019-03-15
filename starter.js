@@ -69,6 +69,14 @@ function onChange(input) {
 function onKeyPress(button) {
 
   console.log("Button pressed", button);
+
+  // if the Enter button is clicked
+  if(button === "{ent}") {
+      let txtgen = window.txtgen;
+
+      let sentence = txtgen.sentence();
+      document.getElementById("targetSentence").innerText = sentence;
+  }
 }
 
 
