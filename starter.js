@@ -1,6 +1,7 @@
 let Keyboard = window.SimpleKeyboard.default;
 let swipe = window.SimpleKeyboardSwipe.default;
 let autocorrect = window.SimpleKeyboardAutocorrect.default;
+let txtgen = window.txtgen;
 
 let keyboard = new Keyboard({
   onChange: input => onChange(input),
@@ -69,6 +70,19 @@ function onChange(input) {
 function onKeyPress(button) {
 
   console.log("Button pressed", button);
+
+  // if the Enter button is clicked
+  if(button === "{ent}") {
+    const targetSentence = document.getElementById("targetSentence").innerText;
+    const inputSentence = document.getElementById("inputSentence").innerText;
+    alert(compareTwoStrings(targetSentence, inputSentence));
+
+    let sentence = txtgen.sentence();
+    sentence = sentence.replace(/[^\w\s]/gi, '');
+    sentence = sentence.toLowerCase();
+    document.getElementById("targetSentence").innerText = sentence;
+    document.getElementById("inputSentence").innerText = "";
+  }
 }
 
 
