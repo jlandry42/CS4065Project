@@ -81,7 +81,7 @@ function onKeyPress(button) {
     sentence = sentence.replace(/[^\w\s]/gi, '');
     sentence = sentence.toLowerCase();
     document.getElementById("targetSentence").innerText = sentence;
-      document.getElementById("inputSentence").innerText = "";
+    document.getElementById("inputSentence").innerText = "";
   }
 }
 
