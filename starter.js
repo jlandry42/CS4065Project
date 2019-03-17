@@ -135,11 +135,8 @@ handsfree.use({
     })
   },
   onMouseDown:(pose, poseIndex)=> {
-    console.log(pose);
-    console.log(pose.cursor.x);
-    console.log(pose.cursor.y);
-    console.log(pose.cursor.$target);
-    $(document.elementFromPoint(pose.cursor.x,pose.cursor.y)).trigger("click");
+    $(document.elementFromPoint(pose.cursor.x,pose.cursor.y)).trigger("pointerdown");
+    $(document.elementFromPoint(pose.cursor.x,pose.cursor.y)).trigger("pointerup");
   },
   /**
    * Called whenever handsfree.start() is called
