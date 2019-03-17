@@ -7,7 +7,6 @@ let keyboard = new Keyboard({
   onChange: input => onChange(input),
   onKeyPress: button => onKeyPress(button),
   autocorrectDict: ["hello", "pizza", "computer", "home"],
-  autocorrectHotkey: "{space}",
   onAutocorrectPrediction: (word, prediction) => {
     console.log("Autocorrect:", word, prediction);
   },
@@ -58,7 +57,12 @@ document.querySelector(".swipeCanvasElement").addEventListener("mouseup", () => 
      * by setting the "autocorrectHotkey" option
      */
     if(document.getElementById("inputSentence").value !== "") {
-      keyboard.getButtonElement("{space}").click();
+      if(keyboard.previousInput !== "{ent}"
+        && keyboard.previousInput !== "{backspace}"
+        && keyboard.previousInput !== "{space}")
+      {
+        keyboard.getButtonElement("{space}").click();
+      }
     }
 }, true);
 
@@ -72,6 +76,8 @@ function onChange(input) {
 function onKeyPress(button) {
 
   console.log("Button pressed", button);
+
+  keyboard.previousInput = button;
 
   // if the Enter button is clicked
   if(button === "{ent}") {
