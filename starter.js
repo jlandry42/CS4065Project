@@ -3,16 +3,17 @@ let swipe = window.SimpleKeyboardSwipe.default;
 let autocorrect = window.SimpleKeyboardAutocorrect.default;
 let txtgen = window.txtgen;
 
+let lingerTime = 3000; // linger time in ms
+
 let keyboard = new Keyboard({
   onChange: input => onChange(input),
   onKeyPress: button => onKeyPress(button),
-  autocorrectDict: ["hello", "pizza", "computer", "home"],
-  onAutocorrectPrediction: (word, prediction) => {
-    console.log("Autocorrect:", word, prediction);
-  },
+  // autocorrectDict: ["hello", "pizza", "computer", "home"],
+  // onAutocorrectPrediction: (word, prediction) => {
+  //   console.log("Autocorrect:", word, prediction);
+  // },
   modules: [
-    swipe,
-    autocorrect
+
   ],
   mergeDisplay: true,
   layoutName: "default",
@@ -44,6 +45,9 @@ let keyboard = new Keyboard({
   theme: "hg-theme-default hg-layout-default keyboardThemeClass",
 });
 
+let previousTarget = undefined;
+let lingerStartTime = undefined;
+
 /**
  * Update simple-keyboard when input is changed directly
  */
@@ -51,20 +55,20 @@ document.querySelector(".input").addEventListener("input", event => {
   keyboard.setInput(event.target.value);
 });
 
-document.querySelector(".swipeCanvasElement").addEventListener("mouseup", () => {
-    /**
-     * Default autocorrect hotkey is space, can be changed
-     * by setting the "autocorrectHotkey" option
-     */
-    if(document.getElementById("inputSentence").value !== "") {
-      if(keyboard.previousInput !== "{ent}"
-        && keyboard.previousInput !== "{backspace}"
-        && keyboard.previousInput !== "{space}")
-      {
-        keyboard.getButtonElement("{space}").click();
-      }
-    }
-}, true);
+// document.querySelector(".swipeCanvasElement").addEventListener("mouseup", () => {
+//     /**
+//      * Default autocorrect hotkey is space, can be changed
+//      * by setting the "autocorrectHotkey" option
+//      */
+//     if(document.getElementById("inputSentence").value !== "") {
+//       if(keyboard.previousInput !== "{ent}"
+//         && keyboard.previousInput !== "{backspace}"
+//         && keyboard.previousInput !== "{space}")
+//       {
+//         keyboard.getButtonElement("{space}").click();
+//       }
+//     }
+// }, true);
 
 console.log(keyboard);
 
@@ -119,6 +123,17 @@ handsfree.use({
   onFrame (poses) {
     // eslint-disable-next-line
     poses.forEach(pose => {
+      if(pose.face.cursor.$target !== previousTarget) {
+        previousTarget = pose.face.cursor.$target;
+        lingerStartTime = Date.now();
+      } else if(pose.face.cursor.$target === previousTarget) {
+        if(Date.now() - lingerStartTime >= lingerTime) {
+          lingerStartTime = Date.now();
+          pose.face.cursor.$target.click();
+          console.log('click');
+        }
+      }
+
       // Do things with the face here
       $sandboxWrap.innerHTML = `
         <strong>pose.face.cursor.x</strong>: ${pose.face.cursor.x}
@@ -157,4 +172,4 @@ handsfree.use({
   onStop () {
     console.log(`Stopped: ${this.name}`)
   }
-})
+});
