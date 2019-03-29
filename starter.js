@@ -123,7 +123,22 @@ handsfree.use({
   onFrame (poses) {
     // eslint-disable-next-line
     poses.forEach(pose => {
-      if(pose.face.cursor.$target !== previousTarget) {
+      if(pose.face.cursor.$target !== null && pose.face.cursor.$target !== previousTarget) {
+        if(typeof previousTarget !== 'undefined'
+          && typeof previousTarget.className !== 'undefined'
+          && typeof previousTarget.className.split(' ') !== 'undefined'
+          && previousTarget.className.split(' ').includes('hg-button')
+        ) {
+          previousTarget.style.backgroundColor = 'white';
+        }
+        if(typeof pose.face.cursor.$target !== 'undefined'
+            && typeof pose.face.cursor.$target.className !== 'undefined'
+            && typeof pose.face.cursor.$target.className.split(' ') !== 'undefined'
+            && pose.face.cursor.$target.className.split(' ').includes('hg-button')
+        ) {
+            pose.face.cursor.$target.style.backgroundColor = 'gray';
+        }
+
         previousTarget = pose.face.cursor.$target;
         lingerStartTime = Date.now();
       } else if(pose.face.cursor.$target === previousTarget) {
