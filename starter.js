@@ -87,7 +87,24 @@ function onKeyPress(button) {
   if(button === "{ent}") {
     const targetSentence = document.getElementById("targetSentence").innerText;
     const inputSentence = document.getElementById("inputSentence").value;
-    alert(compareTwoStrings(targetSentence, inputSentence));
+    const sim = compareTwoStrings(targetSentence, inputSentence);
+
+    var jqxhr = $.ajax({
+    url: "https://script.google.com/macros/s/AKfycbzSbkDy1cK--Pqisy5O2tzm5mPHYcKIDc0F8VHNtp_8s6yk2Ac/exec",
+    method: "GET",
+    dataType: "json",
+    data: {
+      "id" : 1,
+      "input_method" : "single",
+      "target_sentence" : targetSentence,
+      "input_sentence" : inputSentence,
+      "similarity" : sim,
+      "timestamp" : new Date(),
+      //TODO add completion time
+    }
+  }).done(function (response){
+      console.log(response)
+  });
 
     let sentence = txtgen.sentence();
     sentence = sentence.replace(/[^\w\s]/gi, '');
