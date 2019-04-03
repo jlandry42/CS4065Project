@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Handsfree Starter</title>
+    <title>CS4065Project</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/png" href="https://cdn.glitch.com/ee6351cf-ebdc-4924-864a-4df22172856f%2Ftensormonkey.png">
-
     <!-- import the webpage's stylesheet -->
     <link rel="stylesheet" href="css/main.css">
     <!-- Vuetify -->
@@ -23,14 +21,78 @@
   </head>
   <body>
     <div id="app">
-      <v-app dark="dark">
-        <v-toolbar light="light" app="app">
-          <v-toolbar-title class="headline text-uppercase"><span class="mr-3">CS4065Project</span></v-toolbar-title>
+      <v-app>
+        <v-toolbar  app="app">
+          <v-dialog
+            width="500">
+        <template v-slot:activator="{ on }">
+          <v-btn
+            color="green lighten-2"
+            dark
+            v-on="on"
+            large="large">
+            Click Here Before Starting!
+          </v-btn>
+        </template>
+
+        <v-card>
+          <v-card-title primary-title><h3 class="headline mb-0">Settings</h3></v-card-title>
+
+          <v-divider></v-divider>
+          <v-text-field
+           id="idInput"
+           label="User ID"
+           required></v-text-field>
+            <v-menu offset-y>
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  v-on="on">
+                  Input Methods
+                </v-btn>
+              </template>
+              <v-list>
+              <v-list-tile id="smileTile">
+                <v-list-tile-title>Smile Input</v-list-tile-title>
+              </v-list-tile>
+              <v-list-tile id="lingerShortTile">
+                <v-list-tile-title>Linger Short</v-list-tile-title>
+              </v-list-tile>
+              <v-list-tile id="lingerLongTile">
+                <v-list-tile-title>Linger Long</v-list-tile-title>
+              </v-list-tile>
+          </v-list>
+            </v-menu>
+            <v-menu offset-y>
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  v-on="on">
+                Evaluation Type
+                </v-btn>
+              </template>
+              <v-list>
+              <v-list-tile id="practiceTile">
+                <v-list-tile-title>Practice</v-list-tile-title>
+              </v-list-tile>
+              <v-list-tile id="evaluationTile">
+                <v-list-tile-title>Evaluation</v-list-tile-title>
+              </v-list-tile>
+          </v-list>
+            </v-menu>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
           <v-spacer></v-spacer>
           <v-btn class="primary handsfree-show-when-stopped" large="large" @click="startWebcam">Start Webcam</v-btn>
           <v-btn class="primary handsfree-show-when-started hidden" large="large" color="error" @click="stopWebcam">Stop Webcam</v-btn>
         </v-toolbar>
         <v-content>
+          <v-chip label outline color="black"><span id="idLabel"></span></v-chip>
+          <v-chip label outline color="black"><span id="inputMethodLabel"></span></v-chip>
+          <v-chip label outline color="black"><span id="evaluationLabel"></span></v-chip>
+
           <div class="handsfree-debug-wrap"></div>
           <v-container full-height="full-height" grid-list-md="grid-list-md">
             <v-layout class="mb-5" justify-center="justify-center" wrap="wrap" align-center="align-center">
@@ -83,15 +145,12 @@
             </v-layout>
           </v-container>
         </v-content>
-      </v-app>
+        </v-app>
     </div>
 
     <script type="module" src="KeyboardModule.js"></script>
 
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
-    <!-- include the Glitch button to show what the webpage is about and to make it easier for folks to view source and remix -->
-    <div class="glitchButton" style="position:fixed;top:20px;right:20px;"></div>
-    <script src="https://button.glitch.me/button.js"></script>
     <!-- simplekeyboard -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/css/index.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swipe-keyboard@latest/build/css/index.css">

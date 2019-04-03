@@ -1,20 +1,23 @@
 let Keyboard = window.SimpleKeyboard.default;
-let swipe = window.SimpleKeyboardSwipe.default;
-let autocorrect = window.SimpleKeyboardAutocorrect.default;
 let txtgen = window.txtgen;
 
-let lingerTime = 3000; // linger time in ms
+let smileMode = true;
+let lingerShort = false;
+let lingerLong = false;
+document.getElementById("inputMethodLabel").innerHTML = "Input Method: Smile Mode"
+
+let id = 0;
+document.getElementById("idLabel").innerHTML = "ID:" + id;
+
+let isPractice = true;
+document.getElementById("evaluationLabel").innerHTML = "Practice Mode"
+
+let lingerTimeShort = 1500; // linger time in ms
+let lingerTimeLong = 3000; // linger time in ms
 
 let keyboard = new Keyboard({
   onChange: input => onChange(input),
   onKeyPress: button => onKeyPress(button),
-  // autocorrectDict: ["hello", "pizza", "computer", "home"],
-  // onAutocorrectPrediction: (word, prediction) => {
-  //   console.log("Autocorrect:", word, prediction);
-  // },
-  modules: [
-
-  ],
   mergeDisplay: true,
   layoutName: "default",
   layout: {
@@ -89,22 +92,24 @@ function onKeyPress(button) {
     const inputSentence = document.getElementById("inputSentence").value;
     const sim = compareTwoStrings(targetSentence, inputSentence);
 
-    var jqxhr = $.ajax({
-    url: "https://script.google.com/macros/s/AKfycbzSbkDy1cK--Pqisy5O2tzm5mPHYcKIDc0F8VHNtp_8s6yk2Ac/exec",
-    method: "GET",
-    dataType: "json",
-    data: {
-      "id" : 1,
-      "input_method" : "single",
-      "target_sentence" : targetSentence,
-      "input_sentence" : inputSentence,
-      "similarity" : sim,
-      "timestamp" : new Date(),
-      //TODO add completion time
+    if(!isPractice){
+        var jqxhr = $.ajax({
+        url: "https://script.google.com/macros/s/AKfycbzSbkDy1cK--Pqisy5O2tzm5mPHYcKIDc0F8VHNtp_8s6yk2Ac/exec",
+        method: "GET",
+        dataType: "json",
+        data: {
+          "id" : id,
+          "input_method" : document.getElementById("inputMethodLabel").innerHTML,
+          "target_sentence" : targetSentence,
+          "input_sentence" : inputSentence,
+          "similarity" : sim,
+          "timestamp" : new Date(),
+          //TODO add completion time
+        }
+      }).done(function (response){
+          console.log(response)
+      });
     }
-  }).done(function (response){
-      console.log(response)
-  });
 
     let sentence = txtgen.sentence();
     sentence = sentence.replace(/[^\w\s]/gi, '');
@@ -159,10 +164,16 @@ handsfree.use({
         previousTarget = pose.face.cursor.$target;
         lingerStartTime = Date.now();
       } else if(pose.face.cursor.$target === previousTarget) {
-        if(Date.now() - lingerStartTime >= lingerTime) {
-          lingerStartTime = Date.now();
-          pose.face.cursor.$target.click();
-          console.log('click');
+        if(lingerShort){
+          if(Date.now() - lingerStartTime >= lingerTimeShort) {
+            lingerStartTime = Date.now();
+            pose.face.cursor.$target.click();
+          }
+        } else if(lingerLong){
+          if(Date.now() - lingerStartTime >= lingerTimeLong) {
+            lingerStartTime = Date.now();
+            pose.face.cursor.$target.click();
+          }
         }
       }
 
@@ -188,8 +199,14 @@ handsfree.use({
     })
   },
   onMouseDown:(pose, poseIndex)=> {
-    $(document.elementFromPoint(pose.cursor.x,pose.cursor.y)).trigger("pointerdown");
-    $(document.elementFromPoint(pose.cursor.x,pose.cursor.y)).trigger("pointerup");
+    if (smileMode){
+      $(document.elementFromPoint(pose.cursor.x,pose.cursor.y)).trigger("pointerdown");
+    }
+  },
+  onMouseUp:(pose,poseIndex)=>{
+    if(smileMode){
+      $(document.elementFromPoint(pose.cursor.x,pose.cursor.y)).trigger("pointerup");
+    }
   },
   /**
    * Called whenever handsfree.start() is called
@@ -204,4 +221,43 @@ handsfree.use({
   onStop () {
     console.log(`Stopped: ${this.name}`)
   }
+});
+
+document.getElementById("smileTile").addEventListener("click", function(){
+  smileMode = true;
+  lingerShort = false;
+  lingerLong = false;
+
+  document.getElementById("inputMethodLabel").innerHTML = "Input Method: Smile"
+
+});
+document.getElementById("lingerShortTile").addEventListener("click", function(){
+  smileMode = false;
+  lingerShort = true;
+  lingerLong = false;
+
+  document.getElementById("inputMethodLabel").innerHTML = "Input Method: Linger Short"
+});
+document.getElementById("lingerLongTile").addEventListener("click", function(){
+  smileMode = false;
+  lingerShort = false;
+  lingerLong = true;
+
+  document.getElementById("inputMethodLabel").innerHTML = "Input Method: Linger Long"
+});
+
+document.getElementById("practiceTile").addEventListener("click", function(){
+  isPractice = true;
+  document.getElementById("evaluationLabel").innerHTML = "Practice Mode"
+});
+
+document.getElementById("evaluationTile").addEventListener("click", function(){
+  isPractice = false;
+  document.getElementById("evaluationLabel").innerHTML = "Evaluation Mode"
+});
+
+document.getElementById("idInput").addEventListener('input', function (evt) {
+  id = this.value;
+  document.getElementById("idLabel").innerHTML = "ID:"+id;
+
 });

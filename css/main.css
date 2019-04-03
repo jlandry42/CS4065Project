@@ -14,6 +14,10 @@ main {
   z-index: 1
 }
 
+.v-text-field{
+  margin:10px;
+}
+
 /* Handsfree */
 .handsfree-boids-debugger-wrap {
   position: fixed;
