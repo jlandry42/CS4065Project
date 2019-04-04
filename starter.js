@@ -114,24 +114,24 @@ function onKeyPress(button) {
       trialNum ++;
       document.getElementById("trialLabel").innerHTML = trialNum;
 
-        if(!isPractice){
-            var jqxhr = $.ajax({
-            url: "https://script.google.com/macros/s/AKfycbzSbkDy1cK--Pqisy5O2tzm5mPHYcKIDc0F8VHNtp_8s6yk2Ac/exec",
-            method: "GET",
-            dataType: "json",
-            data: {
-              "id" : id,
-              "input_method" : document.getElementById("inputMethodLabel").innerHTML,
-              "target_sentence" : targetSentence,
-              "input_sentence" : inputSentence,
-              "similarity" : sim,
-              "time" : time
-            }
-          }).done(function (response){
-              console.log(response)
-          });
-        }
-  }
+      if(!isPractice){
+          var jqxhr = $.ajax({
+          url: "https://script.google.com/macros/s/AKfycbzSbkDy1cK--Pqisy5O2tzm5mPHYcKIDc0F8VHNtp_8s6yk2Ac/exec",
+          method: "GET",
+          dataType: "json",
+          data: {
+            "id" : id,
+            "input_method" : document.getElementById("inputMethodLabel").innerHTML,
+            "target_sentence" : targetSentence,
+            "input_sentence" : inputSentence,
+            "similarity" : sim,
+            "time" : time
+          }
+        }).done(function (response){
+            console.log(response)
+        });
+      }
+    }
   }
 }
 
