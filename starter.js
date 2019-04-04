@@ -101,6 +101,7 @@ function onKeyPress(button) {
     const inputSentence = document.getElementById("inputSentence").value;
     const sim = compareTwoStrings(targetSentence, inputSentence);
     keyboard.clearInput();
+    document.getElementById("inputSentence").value = "";
 
     if(inTrial){
       endTime = Date.now();
