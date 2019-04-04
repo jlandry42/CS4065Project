@@ -1,11 +1,13 @@
 new Vue({
   el: '#app',
-  data: () => ({
-    //
-  }),
+  data: function(){
+    return{
+    }
+  },
 
   methods: {
     startWebcam () {window.handsfree.start()},
-    stopWebcam () {window.handsfree.stop()}
+    stopWebcam () {window.handsfree.stop()},
+
   }
 })
