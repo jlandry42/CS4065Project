@@ -4,7 +4,9 @@ let txtgen = window.txtgen;
 let smileMode = true;
 let lingerShort = false;
 let lingerLong = false;
-document.getElementById("inputMethodLabel").innerHTML = "Input Method: Smile Mode"
+document.getElementById("inputMethodLabel").innerHTML = "Smile"
+
+words = getWords();
 
 let id = 0;
 document.getElementById("idLabel").innerHTML = "ID:" + id;
@@ -14,6 +16,13 @@ document.getElementById("evaluationLabel").innerHTML = "Practice Mode"
 
 let lingerTimeShort = 1500; // linger time in ms
 let lingerTimeLong = 3000; // linger time in ms
+
+let startTime;
+let endTime;
+let inTrial = false;
+let trialNum = 1;
+document.getElementById("trialLabel").innerHTML = trialNum;
+
 
 let keyboard = new Keyboard({
   onChange: input => onChange(input),
@@ -91,31 +100,37 @@ function onKeyPress(button) {
     const targetSentence = document.getElementById("targetSentence").innerText;
     const inputSentence = document.getElementById("inputSentence").value;
     const sim = compareTwoStrings(targetSentence, inputSentence);
-
-    if(!isPractice){
-        var jqxhr = $.ajax({
-        url: "https://script.google.com/macros/s/AKfycbzSbkDy1cK--Pqisy5O2tzm5mPHYcKIDc0F8VHNtp_8s6yk2Ac/exec",
-        method: "GET",
-        dataType: "json",
-        data: {
-          "id" : id,
-          "input_method" : document.getElementById("inputMethodLabel").innerHTML,
-          "target_sentence" : targetSentence,
-          "input_sentence" : inputSentence,
-          "similarity" : sim,
-          "timestamp" : new Date(),
-          //TODO add completion time
-        }
-      }).done(function (response){
-          console.log(response)
-      });
-    }
-
-    let sentence = txtgen.sentence();
-    sentence = sentence.replace(/[^\w\s]/gi, '');
-    sentence = sentence.toLowerCase();
-    document.getElementById("targetSentence").innerText = sentence;
     keyboard.clearInput();
+
+    if(inTrial){
+      endTime = Date.now();
+      document.getElementById("beginTrialButton").style.display = 'block';
+      document.getElementById("targetSentence").innerText = " ";
+      time = endTime - startTime;
+      keyboard.clearInput();
+      inTrial = false;
+      time = String(time);
+      trialNum ++;
+      document.getElementById("trialLabel").innerHTML = trialNum;
+
+        if(!isPractice){
+            var jqxhr = $.ajax({
+            url: "https://script.google.com/macros/s/AKfycbzSbkDy1cK--Pqisy5O2tzm5mPHYcKIDc0F8VHNtp_8s6yk2Ac/exec",
+            method: "GET",
+            dataType: "json",
+            data: {
+              "id" : id,
+              "input_method" : document.getElementById("inputMethodLabel").innerHTML,
+              "target_sentence" : targetSentence,
+              "input_sentence" : inputSentence,
+              "similarity" : sim,
+              "time" : time
+            }
+          }).done(function (response){
+              console.log(response)
+          });
+        }
+  }
   }
 }
 
@@ -178,24 +193,24 @@ handsfree.use({
       }
 
       // Do things with the face here
-      $sandboxWrap.innerHTML = `
-        <strong>pose.face.cursor.x</strong>: ${pose.face.cursor.x}
-        <br>
-        <strong>pose.face.cursor.y</strong>: ${pose.face.cursor.y}
-        <br>
-        <strong>pose.face.cursor.$target</strong>: ${pose.face.cursor.$target}
-        <br>
-        <strong>pose.face.cursor.state.mouseDown</strong>: ${pose.face.cursor.state.mouseDown}
-        <br>
-        <strong>pose.face.cursor.state.mouseDrag</strong>: ${pose.face.cursor.state.mouseDrag}
-        <br>
-        <strong>pose.face.cursor.state.mouseUp</strong>: ${pose.face.cursor.state.mouseUp}
-        <br>
-        <strong>pose.face.translationX/Y</strong>: (${pose.face.translationX.toFixed(2)}, ${pose.face.translationY.toFixed(2)})
-        <br>
-        <strong>pose.face.rotationX/Y/Z</strong>: (${(pose.face.rotationX * 180 / Math.PI).toFixed(2)}, ${(pose.face.rotationY * 180 / Math.PI).toFixed(2)}, ${(pose.face.rotationZ * 180 / Math.PI).toFixed(2)})
-        <br>
-        <strong>pose.face.scale</strong>: ${pose.face.scale}`
+      // $sandboxWrap.innerHTML = `
+      //   <strong>pose.face.cursor.x</strong>: ${pose.face.cursor.x}
+      //   <br>
+      //   <strong>pose.face.cursor.y</strong>: ${pose.face.cursor.y}
+      //   <br>
+      //   <strong>pose.face.cursor.$target</strong>: ${pose.face.cursor.$target}
+      //   <br>
+      //   <strong>pose.face.cursor.state.mouseDown</strong>: ${pose.face.cursor.state.mouseDown}
+      //   <br>
+      //   <strong>pose.face.cursor.state.mouseDrag</strong>: ${pose.face.cursor.state.mouseDrag}
+      //   <br>
+      //   <strong>pose.face.cursor.state.mouseUp</strong>: ${pose.face.cursor.state.mouseUp}
+      //   <br>
+      //   <strong>pose.face.translationX/Y</strong>: (${pose.face.translationX.toFixed(2)}, ${pose.face.translationY.toFixed(2)})
+      //   <br>
+      //   <strong>pose.face.rotationX/Y/Z</strong>: (${(pose.face.rotationX * 180 / Math.PI).toFixed(2)}, ${(pose.face.rotationY * 180 / Math.PI).toFixed(2)}, ${(pose.face.rotationZ * 180 / Math.PI).toFixed(2)})
+      //   <br>
+      //   <strong>pose.face.scale</strong>: ${pose.face.scale}`
     })
   },
   onMouseDown:(pose, poseIndex)=> {
@@ -223,12 +238,27 @@ handsfree.use({
   }
 });
 
+document.getElementById("beginTrialButton").addEventListener("click", function(){
+  keyboard.clearInput();
+
+  let sentence = words[Math.floor(Math.random() * words.length)];
+  sentence += " "+ words[Math.floor(Math.random() * words.length)];
+  sentence +=" "+  words[Math.floor(Math.random() * words.length)];
+  sentence += " "+ words[Math.floor(Math.random() * words.length)];
+  sentence += " "+ words[Math.floor(Math.random() * words.length)];
+
+  document.getElementById("targetSentence").innerText = sentence;
+  document.getElementById("beginTrialButton").style.display = 'none';
+  startTime = Date.now();
+  inTrial = true;
+});
+
 document.getElementById("smileTile").addEventListener("click", function(){
   smileMode = true;
   lingerShort = false;
   lingerLong = false;
 
-  document.getElementById("inputMethodLabel").innerHTML = "Input Method: Smile"
+  document.getElementById("inputMethodLabel").innerHTML = "Smile"
 
 });
 document.getElementById("lingerShortTile").addEventListener("click", function(){
@@ -236,14 +266,14 @@ document.getElementById("lingerShortTile").addEventListener("click", function(){
   lingerShort = true;
   lingerLong = false;
 
-  document.getElementById("inputMethodLabel").innerHTML = "Input Method: Linger Short"
+  document.getElementById("inputMethodLabel").innerHTML = "Linger Short"
 });
 document.getElementById("lingerLongTile").addEventListener("click", function(){
   smileMode = false;
   lingerShort = false;
   lingerLong = true;
 
-  document.getElementById("inputMethodLabel").innerHTML = "Input Method: Linger Long"
+  document.getElementById("inputMethodLabel").innerHTML = "Linger Long"
 });
 
 document.getElementById("practiceTile").addEventListener("click", function(){
